@@ -34,6 +34,9 @@ cover-image = "cover_image.main:app"
 [project.optional-dependencies]
 dev = ["pytest", "ruff", "ty", "jupyter", "seaborn", "twine"]
 
+[tool.hatch.build.targets.wheel]
+packages = ["src/cover_image"]
+
 [tool.ruff]
 line-length = 120
 

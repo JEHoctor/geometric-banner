@@ -1,5 +1,4 @@
 # third party libraries
-import numpy as np
 import pytest
 
 # cover image libraries

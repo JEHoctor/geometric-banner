@@ -1,8 +1,9 @@
 # standard libraries
 import xml.etree.ElementTree as ET
-from enum import Enum
+from collections.abc import Callable
+from enum import StrEnum
 from pathlib import Path
-from typing import Annotated, Callable
+from typing import Annotated
 
 # third party libraries
 import numpy as np
@@ -29,12 +30,12 @@ out_png = here / "cover_image.png"
 colormap = colormaps.get_cmap("viridis")
 
 
-class ShapeChoice(str, Enum):
+class ShapeChoice(StrEnum):
     Hexagon = "Hexagon"
     Triangle = "Triangle"
 
 
-class PatternChoice(str, Enum):
+class PatternChoice(StrEnum):
     gaussian_process = "gaussian_process"
     random = "random"
 
