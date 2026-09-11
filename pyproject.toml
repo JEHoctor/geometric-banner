@@ -52,5 +52,5 @@ line-ending = "auto"
 testpaths = ["tests"]
 addopts = "-vv"
 
-[tool.ty]
+[tool.ty.environment]
 python-version = "3.11"
