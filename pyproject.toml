@@ -31,7 +31,7 @@ geometric-banner = "geometric_banner.main:app"
 "Homepage" = "https://github.com/JEHoctor/geometric-banner"
 
 [project.optional-dependencies]
-dev = ["pytest", "ruff", "ty", "jupyter", "seaborn"]
+dev = ["pytest", "ruff", "ty"]
 
 [tool.ruff]
 line-length = 120
