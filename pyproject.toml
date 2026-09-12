@@ -10,7 +10,8 @@ authors = [
 ]
 description = "Make geometric banner images, e.g. for a LinkedIn profile banner."
 readme = "README.md"
-license = {file = "LICENSE"}
+license = "AGPL-3.0-or-later"
+license-files = ["LICENSE"]
 requires-python = ">=3.11"
 dependencies = [
     "cairosvg>=2.7.0",      # first release to require Python 3.7+ (modern packaging)
@@ -21,7 +22,6 @@ dependencies = [
 ]
 classifiers = [
     "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: GNU Affero General Public License v3",
 ]
 
 [project.scripts]
