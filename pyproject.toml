@@ -1,14 +1,14 @@
 [build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+requires = ["uv_build>=0.8.17,<0.9.0"]
+build-backend = "uv_build"
 
 [project]
-name = "linkedin-cover-image"
+name = "geometric-banner"
 version = "0.0.1"
 authors = [
     {name = "James Hoctor", email = "jehoctor@protonmail.com"}
 ]
-description = "Make geometric banner images for LinkedIn."
+description = "Make geometric banner images, e.g. for a LinkedIn cover photo."
 readme = "README.md"
 license = {file = "LICENSE"}
 requires-python = ">=3.11"
@@ -26,27 +26,36 @@ classifiers = [
 ]
 
 [project.scripts]
-cover-image = "cover_image.main:app"
+geometric-banner = "geometric_banner.main:app"
 
 [project.urls]
-"Homepage" = "https://github.com/JEHoctor/LinkedIn-Cover-Image"
+"Homepage" = "https://github.com/JEHoctor/geometric-banner"
 
 [project.optional-dependencies]
-dev = ["pytest", "ruff", "ty", "jupyter", "seaborn", "twine"]
-
-[tool.hatch.build.targets.wheel]
-packages = ["src/cover_image"]
+dev = ["pytest", "ruff", "ty", "jupyter", "seaborn"]
 
 [tool.ruff]
 line-length = 120
 
 [tool.ruff.lint]
-select = ["E", "F", "I", "UP"]
-per-file-ignores = {"__init__.py" = ["F401"]}
+select = ["ALL"]
+ignore = [
+    "D1",     # missing docstrings: not required on every public symbol in this small package
+    "COM812", # trailing commas: handled by the formatter; ruff recommends disabling
+]
 
-[tool.ruff.format]
-quote-style = "double"
-line-ending = "auto"
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.per-file-ignores]
+"src/geometric_banner/main.py" = ["PLR0913"]  # a typer command is a function with many arguments
+"tests/**" = [
+    "S101",    # assert is the point of a test
+    "PLR2004", # literal expected values are fine in tests
+    "INP001",  # tests/ is intentionally not a package
+    "ANN",     # annotations on test functions add nothing
+    "D",       # docstrings on tests add nothing
+]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

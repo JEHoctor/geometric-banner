@@ -1,5 +1,5 @@
-# Default: list recipes
-default:
+# List recipes
+help:
     @just --list
 
 # Install / sync dependencies with uv
@@ -14,6 +14,10 @@ lint:
 format:
     uv run ruff format src/ tests/
 
+# Check formatting without changing files
+format-check:
+    uv run ruff format --check src/ tests/
+
 # Type-check with ty
 typecheck:
     uv run ty check src/ tests/
@@ -22,13 +26,5 @@ typecheck:
 test:
     uv run pytest -vv
 
-# Run all checks (lint + typecheck + test)
-check: lint typecheck test
-
-# Build distribution
-build:
-    uv build
-
-# Publish to PyPI
-publish:
-    uv publish
+# Run all checks (lint + format-check + typecheck + test)
+check: lint format-check typecheck test

@@ -1,8 +1,6 @@
-# third party libraries
 import pytest
 
-# cover image libraries
-from cover_image.shape import Hexagon, Triangle
+from geometric_banner.shape import Hexagon, Triangle
 
 
 @pytest.fixture

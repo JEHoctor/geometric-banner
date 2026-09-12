@@ -1,9 +1,7 @@
-# third party libraries
 import numpy as np
 import pytest
 
-# cover image libraries
-from cover_image.pattern_generators import gaussian_process_pattern, random_pattern
+from geometric_banner.pattern_generators import gaussian_process_pattern, random_pattern
 
 
 @pytest.fixture
