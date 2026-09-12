@@ -618,7 +618,6 @@ version = "0.0.1"
 source = { editable = "." }
 dependencies = [
     { name = "cairosvg" },
-    { name = "matplotlib" },
     { name = "numpy" },
     { name = "rich" },
     { name = "scikit-learn" },
@@ -638,7 +637,6 @@ dev = [
 requires-dist = [
     { name = "cairosvg" },
     { name = "jupyter", marker = "extra == 'dev'" },
-    { name = "matplotlib" },
     { name = "numpy" },
     { name = "pytest", marker = "extra == 'dev'" },
     { name = "rich" },

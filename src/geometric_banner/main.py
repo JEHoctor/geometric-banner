@@ -7,8 +7,8 @@ import numpy as np
 import rich
 import typer
 from cairosvg import svg2png
-from matplotlib import colormaps
 
+from geometric_banner.colormap import viridis
 from geometric_banner.pattern_generators import gaussian_process_pattern, random_pattern
 from geometric_banner.shape import Hexagon, Shape, Triangle
 
@@ -22,16 +22,9 @@ here = Path()
 out_svg = here / "geometric_banner.svg"
 out_png = here / "geometric_banner.png"
 
-# basic static result properties
-colormap = colormaps.get_cmap("viridis")
-
 
 def get_color(x: float) -> str:
-    if not (0 <= x <= 1):
-        msg = "can only convert values in [0, 1] to colors"
-        raise ValueError(msg)
-    color_bytes = tuple(map(int, colormap(x, bytes=True)[:3]))
-    return f"rgb{color_bytes}"
+    return f"rgb{viridis(x)}"
 
 
 @app.command()

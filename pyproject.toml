@@ -16,7 +16,6 @@ dependencies = [
     "CairoSVG",
     "typer",
     "rich",
-    "matplotlib",
     "numpy",
     "scikit-learn",
 ]
