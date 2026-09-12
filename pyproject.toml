@@ -41,13 +41,14 @@ select = ["ALL"]
 ignore = [
     "D1",     # missing docstrings: not required on every public symbol in this small package
     "COM812", # trailing commas: handled by the formatter; ruff recommends disabling
+    "CPY001", # per-file copyright headers: not a convention this project has adopted
 ]
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"
 
 [tool.ruff.lint.per-file-ignores]
-"src/geometric_banner/main.py" = ["PLR0913"]  # a typer command is a function with many arguments
+"src/geometric_banner/main.py" = ["PLR0913", "PLR0917"]  # a typer command is a function with many arguments
 "tests/**" = [
     "S101",    # assert is the point of a test
     "PLR2004", # literal expected values are fine in tests
