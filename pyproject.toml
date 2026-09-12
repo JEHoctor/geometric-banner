@@ -52,7 +52,6 @@ convention = "google"
     "S101",    # assert is the point of a test
     "PLR2004", # literal expected values are fine in tests
     "INP001",  # tests/ is intentionally not a package
-    "ANN",     # annotations on test functions add nothing
     "D",       # docstrings on tests add nothing
 ]
 
