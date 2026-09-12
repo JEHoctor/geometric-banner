@@ -1,16 +1,15 @@
-"""Manage the tilings"""
+"""Manage the tilings."""
 
-# standard libraries
 import abc
 from collections.abc import Iterator
 from math import cos, pi, sin, sqrt
 
-# third party libraries
 import numpy as np
+import numpy.typing as npt
 from numpy.linalg import matrix_power
 
 
-def rot_matrix(theta):
+def rot_matrix(theta: float) -> npt.NDArray[np.float64]:
     return np.array([[cos(theta), -sin(theta)], [sin(theta), cos(theta)]])
 
 
@@ -28,20 +27,20 @@ class Shape(abc.ABC):
         self.out_height = out_height
 
     def __call__(self) -> Iterator[list[tuple[float, float]]]:
-        """Generate polygons of the image"""
+        """Generate polygons of the image."""
         scale = self.scale
         for vertices in self.generate_units():
             yield [(x * scale, y * scale) for x, y in vertices]
 
     @abc.abstractmethod
     def generate_units(self) -> Iterator[list[tuple[float, float]]]:
-        """Generate unit polygons"""
+        """Generate unit polygons."""
         ...
 
 
 class Hexagon(Shape):
     def generate_units(self) -> Iterator[list[tuple[float, float]]]:
-        """Generate hexagons one unit wide"""
+        """Generate hexagons one unit wide."""
         rot60 = rot_matrix(pi / 3)
         placement_wrt_s = self.padding_factor * np.array([1, 0])
         placement_wrt_t = rot60 @ placement_wrt_s
@@ -58,8 +57,8 @@ class Hexagon(Shape):
 
 
 class Triangle(Shape):
-    def generate_units(self):
-        """Generate triangles of side length one unit"""
+    def generate_units(self) -> Iterator[list[tuple[float, float]]]:
+        """Generate triangles of side length one unit."""
         rot60 = rot_matrix(pi / 3)
         rot120 = rot_matrix(2 * pi / 3)
         placement_wrt_s = self.padding_factor * np.array([1, 0])
@@ -67,9 +66,9 @@ class Triangle(Shape):
         units = self.scale * self.padding_factor
         x_end = self.out_width / units
         y_end = self.out_height / units * 2 / sqrt(3)
-        for t in range(0, 2 + int(y_end)):
-            for s in range(0, 2 + int(x_end)):
-                s = s if t % 2 else s - 0.5  # horizontal offset on odd rows
+        for t in range(2 + int(y_end)):
+            for s_int in range(2 + int(x_end)):
+                s = s_int if t % 2 else s_int - 0.5  # horizontal offset on odd rows
 
                 base_p = placement_wrt_s * s + placement_wrt_t * t
                 offset = np.array([0.5, 0.5 / sqrt(3)])
