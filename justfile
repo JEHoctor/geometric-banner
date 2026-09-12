@@ -16,7 +16,7 @@ format:
 
 # Type-check with ty
 typecheck:
-    uv run ty check src/
+    uv run ty check src/ tests/
 
 # Run tests with pytest
 test:
