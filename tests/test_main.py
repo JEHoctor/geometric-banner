@@ -42,3 +42,17 @@ def test_invalid_shape_is_rejected() -> None:
     result = runner.invoke(app, ["--shape", "square"])
     assert result.exit_code != 0
     assert "square" in result.output
+
+
+def test_colormap_option_changes_output(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.chdir(tmp_path)
+    args = ["--seed", "0", "--width", "60", "--height", "20"]
+    assert runner.invoke(app, [*args, "--colormap", "viridis"]).exit_code == 0
+    viridis_svg = Path("geometric_banner.svg").read_bytes()
+    assert runner.invoke(app, [*args, "--colormap", "magma"]).exit_code == 0
+    magma_svg = Path("geometric_banner.svg").read_bytes()
+    assert viridis_svg != magma_svg
+
+
+def test_rejects_unknown_colormap() -> None:
+    assert runner.invoke(app, ["--colormap", "jet"]).exit_code != 0

@@ -8,14 +8,15 @@ import rich
 import typer
 from cairosvg import svg2png
 
-from geometric_banner.colormap import viridis
-from geometric_banner.pattern_generators import gaussian_process_pattern, random_pattern
+from geometric_banner.colormap import COLORMAPS, RGB, lookup
+from geometric_banner.pattern_generators import FloatArray, gaussian_process_pattern, random_pattern
 from geometric_banner.shape import Hexagon, Shape, Triangle
 
 app = typer.Typer()
 
 SHAPES: dict[str, type[Shape]] = {"hexagon": Hexagon, "triangle": Triangle}
-PATTERNS: dict[str, Callable] = {"gaussian_process": gaussian_process_pattern, "random": random_pattern}
+Pattern = Callable[[FloatArray, int | None], FloatArray]
+PATTERNS: dict[str, Pattern] = {"gaussian_process": gaussian_process_pattern, "random": random_pattern}
 
 # locations for output files
 here = Path()
@@ -23,8 +24,8 @@ out_svg = here / "geometric_banner.svg"
 out_png = here / "geometric_banner.png"
 
 
-def get_color(x: float) -> str:
-    return f"rgb{viridis(x)}"
+def get_color(table: tuple[RGB, ...], x: float) -> str:
+    return f"rgb{lookup(table, x)}"
 
 
 @app.command()
@@ -37,13 +38,16 @@ def main(
     padding_factor: Annotated[float, typer.Option(help="Padding between shapes")] = 1.1,
     width: Annotated[int, typer.Option(help="Canvas width in pixels")] = 1128,
     height: Annotated[int, typer.Option(help="Canvas height in pixels")] = 191,
+    colormap: Annotated[
+        Literal["viridis", "magma", "inferno", "plasma"], typer.Option(help="Colormap for the pattern values")
+    ] = "viridis",
     seed: Annotated[int | None, typer.Option(help="Random seed for a reproducible pattern")] = None,
 ) -> None:
-    _main(SHAPES[shape](scale, padding_factor, width, height), PATTERNS[pattern], seed)
+    _main(SHAPES[shape](scale, padding_factor, width, height), PATTERNS[pattern], COLORMAPS[colormap], seed)
     rich.print(f"[green]✓[/green] Saved {out_svg} and {out_png}")
 
 
-def _main(shape: Shape, pattern: Callable, seed: int | None) -> None:
+def _main(shape: Shape, pattern: Pattern, table: tuple[RGB, ...], seed: int | None) -> None:
     # Initialize a blank canvas of the right size.
     svg_root = ET.Element("svg", attrib={"viewBox": f"0 0 {shape.out_width} {shape.out_height}", "version": "1.1"})
     svg_image = ET.ElementTree(element=svg_root)
@@ -54,7 +58,7 @@ def _main(shape: Shape, pattern: Callable, seed: int | None) -> None:
     # Find a color for each shape.
     shapes = list(shape())
     sample_points = np.vstack([np.mean(s, axis=0) for s in shapes])
-    colors = [get_color(v) for v in pattern(sample_points, seed=seed)]
+    colors = [get_color(table, v) for v in pattern(sample_points, seed)]
 
     # Add the shapes.
     for vertices, color in zip(shapes, colors, strict=True):
