@@ -37,12 +37,13 @@ def main(
     padding_factor: Annotated[float, typer.Option(help="Padding between shapes")] = 1.1,
     width: Annotated[int, typer.Option(help="Canvas width in pixels")] = 1128,
     height: Annotated[int, typer.Option(help="Canvas height in pixels")] = 191,
+    seed: Annotated[int | None, typer.Option(help="Random seed for a reproducible pattern")] = None,
 ) -> None:
-    _main(SHAPES[shape](scale, padding_factor, width, height), PATTERNS[pattern])
+    _main(SHAPES[shape](scale, padding_factor, width, height), PATTERNS[pattern], seed)
     rich.print(f"[green]✓[/green] Saved {out_svg} and {out_png}")
 
 
-def _main(shape: Shape, pattern: Callable) -> None:
+def _main(shape: Shape, pattern: Callable, seed: int | None) -> None:
     # Initialize a blank canvas of the right size.
     svg_root = ET.Element("svg", attrib={"viewBox": f"0 0 {shape.out_width} {shape.out_height}", "version": "1.1"})
     svg_image = ET.ElementTree(element=svg_root)
@@ -53,7 +54,7 @@ def _main(shape: Shape, pattern: Callable) -> None:
     # Find a color for each shape.
     shapes = list(shape())
     sample_points = np.vstack([np.mean(s, axis=0) for s in shapes])
-    colors = [get_color(v) for v in pattern(sample_points)]
+    colors = [get_color(v) for v in pattern(sample_points, seed=seed)]
 
     # Add the shapes.
     for vertices, color in zip(shapes, colors, strict=True):
