@@ -17,11 +17,13 @@ def sample_points() -> FloatArray:
 
 @pytest.mark.parametrize("pattern", PATTERNS)
 class TestPattern:
-    def test_returns_correct_length(self, pattern: Pattern, sample_points: FloatArray) -> None:
-        assert len(pattern(sample_points, seed=0)) == len(sample_points)
+    @pytest.mark.parametrize("seed", [0, None])
+    def test_returns_correct_length(self, pattern: Pattern, sample_points: FloatArray, seed: int | None) -> None:
+        assert len(pattern(sample_points, seed=seed)) == len(sample_points)
 
-    def test_values_in_unit_interval(self, pattern: Pattern, sample_points: FloatArray) -> None:
-        result = pattern(sample_points, seed=0)
+    @pytest.mark.parametrize("seed", [0, None])
+    def test_values_in_unit_interval(self, pattern: Pattern, sample_points: FloatArray, seed: int | None) -> None:
+        result = pattern(sample_points, seed=seed)
         assert np.all(result >= 0.0)
         assert np.all(result <= 1.0)
 
@@ -30,9 +32,3 @@ class TestPattern:
 
     def test_different_seeds_differ(self, pattern: Pattern, sample_points: FloatArray) -> None:
         assert not np.array_equal(pattern(sample_points, seed=1), pattern(sample_points, seed=2))
-
-    def test_seed_none_is_valid(self, pattern: Pattern, sample_points: FloatArray) -> None:
-        result = pattern(sample_points)
-        assert len(result) == len(sample_points)
-        assert np.all(result >= 0.0)
-        assert np.all(result <= 1.0)
