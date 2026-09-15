@@ -31,7 +31,7 @@ def get_color(table: tuple[RGB, ...], x: float) -> str:
 
 def _version_callback(*, value: bool) -> None:
     if value:
-        rich.print(f"geometric-banner {version('geometric-banner')}")
+        typer.echo(f"geometric-banner {version('geometric-banner')}")
         raise typer.Exit
 
 
