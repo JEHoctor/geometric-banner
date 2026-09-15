@@ -60,7 +60,13 @@ convention = "google"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "-vv --cov=geometric_banner --cov-report=term-missing"
+addopts = "-vv --cov=geometric_banner --cov-report=term-missing --strict-markers"
+markers = ["licensing: SPDX header policy checks (see [tool.geometric-banner.license-exceptions])"]
+
+# Every Python file must carry the project licence unless listed here with the
+# identifier it carries instead. tests/test_licensing.py enforces this.
+[tool.geometric-banner.license-exceptions]
+"src/geometric_banner/colormap_data.py" = "CC0-1.0"
 
 [tool.ty.environment]
 python-version = "3.11"
