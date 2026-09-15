@@ -4,7 +4,7 @@ build-backend = "uv_build"
 
 [project]
 name = "geometric-banner"
-version = "0.0.1"
+version = "0.1.0"
 authors = [
     {name = "James Hoctor", email = "jehoctor@protonmail.com"}
 ]
