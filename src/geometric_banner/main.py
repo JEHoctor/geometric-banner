@@ -1,5 +1,6 @@
 import xml.etree.ElementTree as ET
 from collections.abc import Callable
+from importlib.metadata import version
 from pathlib import Path
 from typing import Annotated, Literal
 
@@ -28,6 +29,12 @@ def get_color(table: tuple[RGB, ...], x: float) -> str:
     return f"rgb{lookup(table, x)}"
 
 
+def _version_callback(*, value: bool) -> None:
+    if value:
+        rich.print(f"geometric-banner {version('geometric-banner')}")
+        raise typer.Exit
+
+
 @app.command()
 def main(
     shape: Annotated[Literal["hexagon", "triangle"], typer.Option(help="Shape to tile across the banner")] = "hexagon",
@@ -42,6 +49,9 @@ def main(
         Literal["viridis", "magma", "inferno", "plasma"], typer.Option(help="Colormap for the pattern values")
     ] = "viridis",
     seed: Annotated[int | None, typer.Option(help="Random seed for a reproducible pattern")] = None,
+    version: Annotated[  # noqa: ARG001, FBT002  # a typer flag: consumed by the eager callback
+        bool, typer.Option("--version", callback=_version_callback, is_eager=True, help="Show the version and exit")
+    ] = False,
 ) -> None:
     _main(SHAPES[shape](scale, padding_factor, width, height), PATTERNS[pattern], COLORMAPS[colormap], seed)
     rich.print(f"[green]✓[/green] Saved {out_svg} and {out_png}")
