@@ -1,3 +1,4 @@
+from importlib.metadata import version
 from pathlib import Path
 
 import pytest
@@ -56,3 +57,10 @@ def test_colormap_option_changes_output(tmp_path: Path, monkeypatch: pytest.Monk
 
 def test_rejects_unknown_colormap() -> None:
     assert runner.invoke(app, ["--colormap", "jet"]).exit_code != 0
+
+
+def test_version_flag_prints_version_and_exits(cwd: Path) -> None:
+    result = runner.invoke(app, ["--version"])
+    assert result.exit_code == 0, result.output
+    assert result.output.strip() == f"geometric-banner {version('geometric-banner')}"
+    assert not (cwd / "geometric_banner.svg").exists()
