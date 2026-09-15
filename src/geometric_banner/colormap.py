@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
 """Colormaps from the viridis family, embedded so matplotlib is not a dependency.
 
 Tables by Nathaniel J. Smith, Stefan van der Walt and (viridis) Eric Firing, released under

@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
 import pytest
 
 from geometric_banner.colormap import COLORMAPS, INFERNO, MAGMA, PLASMA, RGB, VIRIDIS, lookup

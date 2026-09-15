@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
 from importlib.metadata import version
 from pathlib import Path
 

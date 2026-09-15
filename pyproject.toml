@@ -41,8 +41,10 @@ select = ["ALL"]
 ignore = [
     "D1",     # missing docstrings: not required on every public symbol in this small package
     "COM812", # trailing commas: handled by the formatter; ruff recommends disabling
-    "CPY001", # per-file copyright headers: not a convention this project has adopted
 ]
+
+[tool.ruff.lint.flake8-copyright]
+notice-rgx = "# SPDX-License-Identifier: AGPL-3.0-or-later"
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"
