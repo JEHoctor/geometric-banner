@@ -31,7 +31,9 @@ geometric-banner
 `geometric_banner.svg` and `geometric_banner.png` to the current directory.
 
 Everything is optional; the defaults produce a LinkedIn-sized hexagon banner colored
-by a Gaussian process in viridis. Pass `--seed` to make a result reproducible.
+by a Gaussian process in viridis. Pass `--seed` to make a result reproducible — with the
+same installed versions of numpy and scikit-learn, that is; the Gaussian process sampler
+goes through floating-point linear algebra, so upgrading those can shift the result slightly.
 
 ```
 geometric-banner --shape triangle --colormap magma --seed 42
