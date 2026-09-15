@@ -2,7 +2,8 @@
 
 import pytest
 
-from geometric_banner.colormap import COLORMAPS, INFERNO, MAGMA, PLASMA, RGB, VIRIDIS, lookup
+from geometric_banner.colormap import COLORMAPS, RGB, lookup
+from geometric_banner.colormap_data import INFERNO, MAGMA, PLASMA, VIRIDIS
 
 
 def test_four_colormaps_registered() -> None:

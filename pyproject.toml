@@ -44,7 +44,7 @@ ignore = [
 ]
 
 [tool.ruff.lint.flake8-copyright]
-notice-rgx = "# SPDX-License-Identifier: AGPL-3.0-or-later"
+notice-rgx = "# SPDX-License-Identifier: (AGPL-3.0-or-later|CC0-1.0)"
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"
